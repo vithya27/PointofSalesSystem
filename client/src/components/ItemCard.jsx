@@ -1,9 +1,12 @@
 import React from "react";
 
-export const ItemCard = ({ item }) => {
+export const ItemCard = ({ item, onClick }) => {
   return (
     <>
-      <div className="max-w-sm rounded shadow-lg border-black">
+      <div
+        onClick={onClick}
+        className="max-w-sm rounded shadow-lg border-black"
+      >
         <img className="w-full" src={item.imageURL} alt="" />
         <div className="px-6 py-4">
           <div className="font-bold text-xl mb-2">{item.itemName}</div>
