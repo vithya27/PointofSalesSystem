@@ -4,13 +4,18 @@ import { useContext } from "react";
 import { CurrentOrderCard } from "./CurrentOrderCard";
 
 export const CurrentOrder = () => {
-  const cart = useContext(CartContext);
+  const [cart, setCart] = useContext(CartContext);
+
   let totalAmount = 0;
 
-  for (let i = 0; i < cart[0].length; i++) {
-    console.log(cart[0]);
-    totalAmount += cart[0][i].subTotal;
+  for (let i = 0; i < cart.length; i++) {
+    totalAmount += cart[i].subTotal;
   }
+
+  const removeCartItem = async (e) => {
+    const newCart = cart.filter((cartItem) => cartItem._id !== e.target.id);
+    setCart(newCart);
+  };
 
   return (
     <>
@@ -21,13 +26,17 @@ export const CurrentOrder = () => {
           </h1>
         </div>
 
-        {cart[0].length > 0 ? (
+        {cart.length > 0 ? (
           <>
-            {cart[0].map((cartItem, key) => (
-              <CurrentOrderCard key={key} cartItem={cartItem} />
+            {cart.map((cartItem, key) => (
+              <CurrentOrderCard
+                key={key}
+                cartItem={cartItem}
+                removeCartItem={(e) => removeCartItem(e)}
+              />
             ))}
             <div className="h-36 flex flex-col items-center">
-              <p className="p-5 w-1/2 items-center bg-white border border-gray-200 rounded-lg shadow m-2">
+              <p className="p-5 w-2/3 items-center bg-green-100 border font-bold border-gray-200 rounded-lg shadow m-2">
                 Total Amount: ${((totalAmount * 1000) / 1000).toFixed(2)}
               </p>
               <button className="m-2 w-1/2 justify-center focus:outline-none text-white text-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
