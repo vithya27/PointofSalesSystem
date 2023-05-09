@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { CartContext } from "../pages/Home";
+import { CartContext, RefreshContext } from "../pages/Home";
 import { useContext } from "react";
 import { CurrentOrderCard } from "./CurrentOrderCard";
 
 export const CurrentOrder = () => {
   const [cart, setCart] = useContext(CartContext);
+  const [refresh, setRefresh] = useContext(RefreshContext);
   const [counter, setCounter] = useState(0);
 
   let totalAmount = 0;
 
   for (let i = 0; i < cart.length; i++) {
-    totalAmount += cart[i].subTotal;
+    totalAmount += parseFloat(cart[i].subTotal);
   }
 
   const removeCartItem = async (e) => {
@@ -33,6 +34,51 @@ export const CurrentOrder = () => {
       setCart(newCart);
     }
     setCounter(cartItem.quantity);
+  };
+
+  const submitOrder = async () => {
+    try {
+      console.log("creating");
+      await fetch("http://127.0.0.1:5001/order/neworder", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          itemsPurchased: cart,
+          total: totalAmount,
+          paid: true,
+        }),
+      });
+
+      console.log(cart);
+
+      for (let i = 0; i < cart.length; i++) {
+        console.log("updating");
+        console.log(cart[i].availableStock - cart[i].quantity);
+        console.log(cart[i].sold + cart[i].quantity);
+        await fetch(`http://127.0.0.1:5001/stock/updatestock/${cart[i]._id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            itemCode: cart[i].itemCode,
+            itemName: cart[i].itemName,
+            availableStock: cart[i].availableStock - cart[i].quantity,
+            sellingPrice: cart[i].sellingPrice,
+            purchasePrice: cart[i].purchasePrice,
+            imageURL: cart[i].imageURL,
+            category: cart[i].category,
+            sold: cart[i].sold + cart[i].quantity,
+          }),
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    setCart([]);
+    refresh === true ? setRefresh(false) : setRefresh(true);
   };
 
   return (
@@ -59,7 +105,10 @@ export const CurrentOrder = () => {
               <p className="p-5 w-2/3 items-center bg-green-100 border font-bold border-gray-200 rounded-lg shadow m-2">
                 Total Amount: ${((totalAmount * 1000) / 1000).toFixed(2)}
               </p>
-              <button className="m-2 w-1/2 justify-center focus:outline-none text-white text-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+              <button
+                onClick={() => submitOrder()}
+                className="m-2 w-1/2 justify-center focus:outline-none text-white text-lg bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+              >
                 Make Payment
               </button>
             </div>

@@ -1,13 +1,15 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
-import { CartContext } from "../pages/Home";
+import { CartContext, RefreshContext } from "../pages/Home";
 import { ItemCard } from "./ItemCard";
 
 export const Items = () => {
   const [items, setItems] = useState([]);
+  const [refresh, setRefresh] = useContext(RefreshContext);
   const [cart, setCart] = useContext(CartContext);
 
   useEffect(() => {
+    console.log("rerendering");
     fetch("http://127.0.0.1:5001/stock/allstock", {
       method: "GET",
     })
@@ -17,7 +19,7 @@ export const Items = () => {
       .then((data) => {
         setItems(data);
       });
-  }, []);
+  }, [refresh]);
 
   const addItemToCart = async (item) => {
     let itemExistsInCart = await cart.find((i) => {
