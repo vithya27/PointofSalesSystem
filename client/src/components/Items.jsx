@@ -6,7 +6,6 @@ import { ItemCard } from "./ItemCard";
 export const Items = () => {
   const [items, setItems] = useState([]);
   const [cart, setCart] = useContext(CartContext);
-  console.log(cart);
 
   useEffect(() => {
     fetch("http://127.0.0.1:5001/stock/allstock", {

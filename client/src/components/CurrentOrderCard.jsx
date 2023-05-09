@@ -1,6 +1,11 @@
 import React from "react";
 
-export const CurrentOrderCard = ({ cartItem, removeCartItem }) => {
+export const CurrentOrderCard = ({
+  cartItem,
+  removeCartItem,
+  increaseQuantity,
+  decreaseQuantity,
+}) => {
   return (
     <>
       <div className="flex flex-row items-center bg-white border border-gray-200 rounded-lg shadow m-2">
@@ -14,11 +19,19 @@ export const CurrentOrderCard = ({ cartItem, removeCartItem }) => {
           </p>
           <p className="text-gray-700 text-base">
             Quantity:{" "}
-            <button className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-5 rounded-l cursor-pointer outline-none">
+            <button
+              id={cartItem._id}
+              onClick={decreaseQuantity}
+              className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-5 rounded-l cursor-pointer outline-none"
+            >
               -
             </button>{" "}
             {cartItem.quantity}{" "}
-            <button className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-5 rounded-r cursor-pointer">
+            <button
+              id={cartItem._id}
+              onClick={increaseQuantity}
+              className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-5 rounded-r cursor-pointer"
+            >
               +
             </button>
           </p>

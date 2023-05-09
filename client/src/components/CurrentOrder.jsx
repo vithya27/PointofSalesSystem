@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { CartContext } from "../pages/Home";
 import { useContext } from "react";
 import { CurrentOrderCard } from "./CurrentOrderCard";
 
 export const CurrentOrder = () => {
   const [cart, setCart] = useContext(CartContext);
+  const [counter, setCounter] = useState(0);
 
   let totalAmount = 0;
 
@@ -15,6 +16,23 @@ export const CurrentOrder = () => {
   const removeCartItem = async (e) => {
     const newCart = cart.filter((cartItem) => cartItem._id !== e.target.id);
     setCart(newCart);
+  };
+
+  const increaseQuantity = (e) => {
+    const cartItem = cart.find((cartItem) => cartItem._id === e.target.id);
+    cartItem.quantity += 1;
+    setCounter(cartItem.quantity);
+  };
+
+  const decreaseQuantity = (e) => {
+    const cartItem = cart.find((cartItem) => cartItem._id === e.target.id);
+    cartItem.quantity -= 1;
+
+    if (cartItem.quantity === 0) {
+      const newCart = cart.filter((cartItem) => cartItem._id !== e.target.id);
+      setCart(newCart);
+    }
+    setCounter(cartItem.quantity);
   };
 
   return (
@@ -33,6 +51,8 @@ export const CurrentOrder = () => {
                 key={key}
                 cartItem={cartItem}
                 removeCartItem={(e) => removeCartItem(e)}
+                increaseQuantity={(e) => increaseQuantity(e)}
+                decreaseQuantity={(e) => decreaseQuantity(e)}
               />
             ))}
             <div className="h-36 flex flex-col items-center">
