@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { CartContext, RefreshContext } from "../pages/Home";
 import { useContext } from "react";
 import { CurrentOrderCard } from "./CurrentOrderCard";
+import { toast } from "react-hot-toast";
 
 export const CurrentOrder = () => {
   const [cart, setCart] = useContext(CartContext);
@@ -22,12 +23,18 @@ export const CurrentOrder = () => {
   const increaseQuantity = (e) => {
     const cartItem = cart.find((cartItem) => cartItem._id === e.target.id);
     cartItem.quantity += 1;
+
+    cartItem.subTotal =
+      parseFloat(cartItem.subTotal) + parseFloat(cartItem.sellingPrice);
+
     setCounter(cartItem.quantity);
   };
 
   const decreaseQuantity = (e) => {
     const cartItem = cart.find((cartItem) => cartItem._id === e.target.id);
     cartItem.quantity -= 1;
+    cartItem.subTotal =
+      parseFloat(cartItem.subTotal) - parseFloat(cartItem.sellingPrice);
 
     if (cartItem.quantity === 0) {
       const newCart = cart.filter((cartItem) => cartItem._id !== e.target.id);
@@ -79,6 +86,7 @@ export const CurrentOrder = () => {
     }
     setCart([]);
     refresh === true ? setRefresh(false) : setRefresh(true);
+    toast.success("Order Created");
   };
 
   return (

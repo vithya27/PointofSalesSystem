@@ -19,7 +19,7 @@ const Sidebar = () => {
         <SidebarCard Icon={HomeIcon} title="Home" />
       </Link>
 
-      <Link to="/">
+      <Link to="/inventory">
         <SidebarCard Icon={ChartBarSquareIcon} title="Inventory" />
       </Link>
 
