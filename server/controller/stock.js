@@ -1,5 +1,4 @@
 const Stock = require("../models/stock");
-const stock = require("../seed/stock");
 
 const data = require("../seed/stock");
 
