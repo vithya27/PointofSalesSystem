@@ -15,8 +15,6 @@ const InvoiceData = () => {
       });
   }, []);
 
-  console.log(invoices);
-
   return (
     <div className="col-span-7 border-l">
       <div className="flex items-center justify-between">

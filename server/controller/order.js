@@ -57,7 +57,6 @@ const updateOrder = async (req, res) => {
     total: req.body.total,
     paid: req.body.paid,
   });
-  console.log(response);
 
   res.json(response);
 };

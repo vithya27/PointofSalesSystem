@@ -67,7 +67,6 @@ const updateStock = async (req, res) => {
     category: req.body.category,
     sold: req.body.sold,
   });
-  console.log(response);
 
   res.json(response);
 };
