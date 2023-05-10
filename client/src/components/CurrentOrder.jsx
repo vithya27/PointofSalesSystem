@@ -27,6 +27,7 @@ export const CurrentOrder = () => {
     cartItem.subTotal =
       parseFloat(cartItem.subTotal) + parseFloat(cartItem.sellingPrice);
 
+    cartItem.subTotal = cartItem.subTotal.toFixed(2);
     setCounter(cartItem.quantity);
   };
 
@@ -35,6 +36,7 @@ export const CurrentOrder = () => {
     cartItem.quantity -= 1;
     cartItem.subTotal =
       parseFloat(cartItem.subTotal) - parseFloat(cartItem.sellingPrice);
+    cartItem.subTotal = cartItem.subTotal.toFixed(2);
 
     if (cartItem.quantity === 0) {
       const newCart = cart.filter((cartItem) => cartItem._id !== e.target.id);
@@ -45,7 +47,6 @@ export const CurrentOrder = () => {
 
   const submitOrder = async () => {
     try {
-      console.log("creating");
       await fetch("http://127.0.0.1:5001/order/neworder", {
         method: "PUT",
         headers: {
@@ -58,12 +59,7 @@ export const CurrentOrder = () => {
         }),
       });
 
-      console.log(cart);
-
       for (let i = 0; i < cart.length; i++) {
-        console.log("updating");
-        console.log(cart[i].availableStock - cart[i].quantity);
-        console.log(cart[i].sold + cart[i].quantity);
         await fetch(`http://127.0.0.1:5001/stock/updatestock/${cart[i]._id}`, {
           method: "PATCH",
           headers: {

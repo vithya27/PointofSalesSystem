@@ -9,7 +9,6 @@ export const Items = () => {
   const [cart, setCart] = useContext(CartContext);
 
   useEffect(() => {
-    console.log("rerendering");
     fetch("http://127.0.0.1:5001/stock/allstock", {
       method: "GET",
     })
@@ -35,7 +34,9 @@ export const Items = () => {
           newItem = {
             ...cartItem,
             quantity: cartItem.quantity + 1,
-            subTotal: cartItem.sellingPrice * (cartItem.quantity + 1),
+            subTotal: (cartItem.sellingPrice * (cartItem.quantity + 1)).toFixed(
+              2
+            ),
           };
           newCart.push(newItem);
         } else {

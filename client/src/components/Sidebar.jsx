@@ -23,7 +23,7 @@ const Sidebar = () => {
         <SidebarCard Icon={ChartBarSquareIcon} title="Inventory" />
       </Link>
 
-      <Link to="/">
+      <Link to="/invoices">
         <SidebarCard Icon={BanknotesIcon} title="Invoices" />
       </Link>
     </div>

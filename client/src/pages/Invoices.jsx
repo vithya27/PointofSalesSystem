@@ -1,13 +1,14 @@
 import React from "react";
-import InventoryData from "../components/InventoryData";
-
+import InvoiceData from "../components/InvoiceData";
 import Sidebar from "../components/Sidebar";
 
-export const Inventory = () => {
+const Invoices = () => {
   return (
     <div className="lg:max-w-6xl mx-auto grid grid-cols-9 max-h-screen">
       <Sidebar />
-      <InventoryData />
+      <InvoiceData />
     </div>
   );
 };
+
+export default Invoices;

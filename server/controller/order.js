@@ -5,14 +5,14 @@ const data = require("../seed/order");
 // Seed Orders
 const seed = async (req, res) => {
   await Order.deleteMany({});
-  await Order.create(data, (err, data) => {
-    if (err) {
-      console.error(err.message);
-      res.status(400).json({ status: "error", message: "seeding error" });
-    } else {
-      res.json({ status: "ok", message: "seeding successful" });
-    }
-  });
+  // await Order.create(data, (err, data) => {
+  //   if (err) {
+  //     console.error(err.message);
+  //     res.status(400).json({ status: "error", message: "seeding error" });
+  //   } else {
+  //     res.json({ status: "ok", message: "seeding successful" });
+  //   }
+  // });
 };
 
 // View all orders
